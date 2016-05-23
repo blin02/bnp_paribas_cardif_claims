@@ -27,7 +27,7 @@ def dummify(df, cate_variables, inplace = False):
     else:
         df_new = df
     
-    # convert text-based columns to dummies (except v22)
+    # convert text-based columns to dummies 
     for var_name in cate_variables:
         dummies = pd.get_dummies(df[var_name], prefix=var_name)
         
@@ -36,6 +36,29 @@ def dummify(df, cate_variables, inplace = False):
     
     return df_new
 
+def factorize(df, cate_variables, inplace = False):
+    '''
+    @Summary: convert the categorical variables to numeric variables by using factorize.
+    Old categorical variables will be dropped.
+    @param df: target dataframe
+    @param cate_variables: target variables to be converted to numbers
+    @param inplace: indicate if operation should be performed on original dataframe or a copy of dataframe. 
+    Original dataframe is used when inplace = True, otherwise, a copy of the dataframe.
+    @return: A dataframe with new converted numeric variables. 
+    '''
+    # make a copy before creating dummies
+    if(inplace):
+        df_new = df.copy()
+    else:
+        df_new = df
+            
+    #train[train_name], tmp_indexer = pd.factorize(train[train_name])
+            
+    # convert text-based columns to numbers using factorize
+    for var_name in cate_variables:
+        df_new[var_name] = pd.factorize(df_new[var_name])[0]
+
+    return df_new
 
 
 def get_corr(df, corr_threshold): 
